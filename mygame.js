@@ -1,68 +1,66 @@
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext('2d');
 
-// doesn't work
-// canvas.width = 1200;
-// canvas.height = 1000;
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // start codepen code
 
-var test = 0;
-var img = new Image();
-img.src = 'https://orig15.deviantart.net/8bed/f/2015/058/a/8/smb1_background_by_steamerthesteamtrain-d8jq7ea.png';
-//img.src = "http://www.mulierchile.com/game-background-images/game-background-images-007.jpg"
-var CanvasXSize = canvas.width;
-var CanvasYSize = canvas.height;
-var speed = 30;
-var scale = 1.6;
-var y = 0;
+// var test = 0;
+// var img = new Image();
+// img.src = 'https://orig15.deviantart.net/8bed/f/2015/058/a/8/smb1_background_by_steamerthesteamtrain-d8jq7ea.png';
+// //img.src = "http://www.mulierchile.com/game-background-images/game-background-images-007.jpg"
+// var CanvasXSize = canvas.width;
+// var CanvasYSize = canvas.height;
+// var speed = 30;
+// var scale = 1.6;
+// var y = 0;
 
-var dx = 0.75;
-var imgW;
-var imgH;
-var x = 0;
-var clearX;
-var clearY;
-var ctx;
+// var dx = 0.75;
+// var imgW;
+// var imgH;
+// var x = 0;
+// var clearX;
+// var clearY;
+// var ctx;
 
-img.onload = function() {
-    imgW = img.width * scale;
-    imgH = img.height * scale;
-    if (imgW > CanvasXSize) { 
-      x = CanvasXSize - imgW; }
-    if (imgW > CanvasXSize) { clearX = imgW; }
-    else { clearX = CanvasXSize; }
-    if (imgH > CanvasYSize) { clearY = imgH; }
-    else { clearY = CanvasYSize; }
-    // do not uncomment ctx = document.getElementById('canvas').getContext('2d');
-    return setInterval(draw, speed);
-}
+// img.onload = function() {
+//     imgW = img.width * scale;
+//     imgH = img.height * scale;
+//     if (imgW > CanvasXSize) { 
+//       x = CanvasXSize - imgW; }
+//     if (imgW > CanvasXSize) { clearX = imgW; }
+//     else { clearX = CanvasXSize; }
+//     if (imgH > CanvasYSize) { clearY = imgH; }
+//     else { clearY = CanvasYSize; }
+//     // do not uncomment ctx = document.getElementById('canvas').getContext('2d');
+//     return setInterval(draw, speed);
+// }
 
-function draw() {
+// function draw() {
 
-    gameCharacter.update();
+//     gameCharacter.update();
 
-    ctx.clearRect(0, 0, clearX, clearY);
-    if (imgW <= CanvasXSize) {
-        if (x > CanvasXSize) { x = -imgW + x; }
-        if (x > 0) { ctx.drawImage(img, -imgW + x, y, imgW, imgH); }
-        if (x - imgW > 0) { ctx.drawImage(img, -imgW * 2 + x, y, imgW, imgH); }
-    }
-    else {
-        if (x > (CanvasXSize)) { x = CanvasXSize - imgW; }
-        if (x > (CanvasXSize-imgW)) { ctx.drawImage(img, x - imgW + 1, y, imgW, imgH); }
-    }
-    ctx.drawImage(img, x, y,imgW, imgH);
-    x += dx;
-}
+//     ctx.clearRect(0, 0, clearX, clearY);
+//     if (imgW <= CanvasXSize) {
+//         if (x > CanvasXSize) { x = -imgW + x; }
+//         if (x > 0) { ctx.drawImage(img, -imgW + x, y, imgW, imgH); }
+//         if (x - imgW > 0) { ctx.drawImage(img, -imgW * 2 + x, y, imgW, imgH); }
+//     }
+//     else {
+//         if (x > (CanvasXSize)) { x = CanvasXSize - imgW; }
+//         if (x > (CanvasXSize-imgW)) { ctx.drawImage(img, x - imgW + 1, y, imgW, imgH); }
+//     }
+//     ctx.drawImage(img, x, y,imgW, imgH);
+//     x += dx;
+// }
+
 // end codepen code
 
-// function start(){
-//     var intervalId = setInterval(updateCanvas, 1000);
-// }
+function start(){
+    // left at 20 for fast refresh
+    var intervalId = setInterval(updateCanvas, 20);
+}
 
 function Character(x , y, color, width, height) {
     this.x = x;
@@ -103,9 +101,5 @@ function updateCanvas() {
 window.addEventListener("keydown",function(e){
     if (e.which === 32){
         gameCharacter.gravitySpeed = -8;
-    }
-    if (e.which === 39) { // right arrow
-        test += 1;
-        console.log ()
     }
 })
