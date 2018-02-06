@@ -52,6 +52,7 @@ function drawSquares() {
     })
 }
 
+<<<<<<< HEAD
 function Character(x , y, color, width, height) {
     this.x = x;
     this.y = y;
@@ -72,6 +73,8 @@ function Character(x , y, color, width, height) {
     }  
 }
 
+=======
+>>>>>>> a7e3098cfe52dcd1301249fa1ac9498ebdeb7cc2
 function Character(x , y, color, width, height) {
     this.x = x;
     this.y = y;
@@ -105,11 +108,26 @@ function updateCanvas() {
         gameCharacter.y = 0
         gameCharacter.gravitySpeed = 0
     }
+<<<<<<< HEAD
     gameCharacter.update()   
+=======
+    gameCharacter.update()
+    drawSquares();
+    frameNumber += 20; 
+>>>>>>> a7e3098cfe52dcd1301249fa1ac9498ebdeb7cc2
 }
 
 window.addEventListener("keydown",function(e){
     if (e.which === 32){
         gameCharacter.gravitySpeed = -8;
     }
+<<<<<<< HEAD
 })
+=======
+})
+
+
+
+
+
+>>>>>>> a7e3098cfe52dcd1301249fa1ac9498ebdeb7cc2
