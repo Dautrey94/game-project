@@ -17,55 +17,57 @@ var  everyInterval = ((n) => {
    return false
  });
 
-var flyingCircles = [];
+var flyingRectangles = [];
 
-function Circle (x,y,color,width,height) {
+function Rectangles (x,y,color,width,height) {
    this.height = height;
    this.width = width;
    this.x = x;
    this.y = y;
    this.color = color;
    this.update = function() {
-       ctx.fillStyle = color;
+    ctx.fillStyle=this.color;
+    ctx.fillRect (this.x,this.y,this.width,this.height);
+       //ctx.fillStyle = color;
        // ctx.arc(this.x,this.y,this.width,this.height);
-       ctx.beginPath();
-       ctx.arc(this.x,this.y,50,0,2*Math.PI);
-       ctx.fill();
+       //ctx.beginPath();
+       //ctx.arc(this.x,this.y,50,0,2*Math.PI);
+       //ctx.fill();
    }
    this.newPos = function() {
        this.x -= 15;
    }
-   this.collide = function(circle) {
-    // collision detection based on coordinates of plane & targets
-    var left = this.x;
-    var right = this.x + (this.width);
-    var top = this.y;
-    var bottom = this.y + (this.height);
-    var circleLeft = circle.x;
-    var circleRight = circle.x + (this.width);
-    var circleTop =circle.y;
-    var circleBottom = circle.y + (this.height);
-    var collided = true;
-    if ((bottom < circleTop) ||
-        (top > cirlceBottom) ||
-        (right < circleLeft) ||
-        (left > circleRight)) {
-        collided = false;
-    }
-    return collided;
-   }
+//    this.collide = function(circle) {
+//     // collision detection based on coordinates of plane & targets
+//     var left = this.x;
+//     var right = this.x + (this.width);
+//     var top = this.y;
+//     var bottom = this.y + (this.height);
+//     var circleLeft = circle.x;
+//     var circleRight = circle.x + (this.width);
+//     var circleTop =circle.y;
+//     var circleBottom = circle.y + (this.height);
+//     var collided = true;
+//     if ((bottom < circleTop) ||
+//         (top > cirlceBottom) ||
+//         (right < circleLeft) ||
+//         (left > circleRight)) {
+//         collided = false;
+//     }
+//     return collided;
+//    }
 }
 
-function pushCircle() {
+function pushRectangles() {
    if (everyInterval(500)) {
        var random = Math.floor(Math.random() * canvas.height);
-       flyingCircles.push(new Circle(canvas.width,random,"white",40,40));
+       flyingRectangles.push(new Rectangles(canvas.width,random,"white",40,40));
    }
 }
 
-function drawCircles() {
-   pushCircle();
-   flyingCircles.forEach((elem) => {
+function drawRectangles() {
+   pushRectangles();
+   flyingRectangles.forEach((elem) => {
        elem.newPos();
        elem.update();
    })
@@ -92,21 +94,21 @@ function Character(x , y, color, width, height) {
        this.gravitySpeed += this.gravity;
        this.y += this.speedY + this.gravitySpeed;
    }
-   this.collide = function(circle) {
-    // collision detection based on coordinates of plane & targets
+   this.collide = function(rectangle) {
+    // collision detection based on coordinates 
     var left = this.x;
     var right = this.x + (this.width);
     var top = this.y;
     var bottom = this.y + (this.height);
-    var circleLeft = circle.x;
-    var circleRight = circle.x + (this.width);
-    var circleTop =circle.y;
-    var circleBottom = circle.y + (this.height);
+    var rectangleLeft = rectangle.x;
+    var rectangleRight = rectangle.x + (this.width);
+    var rectangleTop =rectangle.y;
+    var rectangleBottom = rectangle.y + (this.height);
     var collided = true;
-    if ((bottom < circleTop) ||
-        (top > circleBottom) ||
-        (right < circleLeft) ||
-        (left > circleRight)) {
+    if ((bottom < rectangleTop) ||
+        (top > rectangleBottom) ||
+        (right < rectangleLeft) ||
+        (left > rectangleRight)) {
         collided = false;
     }
     return collided;
@@ -126,14 +128,14 @@ function updateCanvas() {
        gameCharacter.y = 0
        gameCharacter.gravitySpeed = 0
    }
-   for (var i =0; i < flyingCircles.length; i++) {
-       if (gameCharacter.collide(flyingCircles[i])){
+   for (var i =0; i < flyingRectangles.length; i++) {
+       if (gameCharacter.collide(flyingRectangles[i])){
             document.location.reload();
     //        alert("game over");
        }
    }
    gameCharacter.update()
-   drawCircles();
+   drawRectangles();
    frameNumber += 20; 
 }
 
