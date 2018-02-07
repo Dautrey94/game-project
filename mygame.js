@@ -1,8 +1,14 @@
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext('2d');
 
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+// starts game after 2 seconds
+setTimeout(function(){ 
+    start();
+}, 2000);
 
 function start(){
    // left at 20 for fast refresh
@@ -18,6 +24,8 @@ var  everyInterval = ((n) => {
  });
 
 var flyingRectangles = [];
+var flyingRectangles2 = [];
+var flyingRectangles3 = [];
 
 function Rectangles (x,y,color,width,height) {
    this.height = height;
@@ -35,35 +43,39 @@ function Rectangles (x,y,color,width,height) {
        //ctx.fill();
    }
    this.newPos = function() {
-       this.x -= 15;
-   }
-//    this.collide = function(circle) {
-//     // collision detection based on coordinates of plane & targets
-//     var left = this.x;
-//     var right = this.x + (this.width);
-//     var top = this.y;
-//     var bottom = this.y + (this.height);
-//     var circleLeft = circle.x;
-//     var circleRight = circle.x + (this.width);
-//     var circleTop =circle.y;
-//     var circleBottom = circle.y + (this.height);
-//     var collided = true;
-//     if ((bottom < circleTop) ||
-//         (top > cirlceBottom) ||
-//         (right < circleLeft) ||
-//         (left > circleRight)) {
-//         collided = false;
-//     }
-//     return collided;
-//    }
+       //this.x -= 15;
+       if( this.color === "red"){
+           this.x -=5;
+       } else if( this.color === "green"){
+           this.x -=30;
+       } else {
+           this.x -=12
+       }
+   } 
 }
 
 function pushRectangles() {
-   if (everyInterval(500)) {
+   if (everyInterval(600)) {
        var random = Math.floor(Math.random() * canvas.height);
-       flyingRectangles.push(new Rectangles(canvas.width,random,"white",40,40));
-   }
+       flyingRectangles.push(new Rectangles(canvas.width,random,"white",60,60));
+       score++;
+   } 
 }
+function pushRectangles2() {
+    if (everyInterval(1000)) {
+        var random = Math.floor(Math.random() * canvas.height);
+        flyingRectangles2.push(new Rectangles(canvas.width,random,"red",60,60));
+        score++;
+    } 
+ }
+ function pushRectangles3() {
+    if (everyInterval(5000)) {
+        var random = Math.floor(Math.random() * canvas.height);
+        flyingRectangles3.push(new Rectangles(canvas.width,random,"green",40,40));
+        score++;
+    } 
+ }
+
 
 function drawRectangles() {
    pushRectangles();
@@ -72,6 +84,21 @@ function drawRectangles() {
        elem.update();
    })
 }
+function drawRectangles2() {
+    pushRectangles2();
+    flyingRectangles2.forEach((elem) => {
+        elem.newPos();
+        elem.update();
+    })
+ }
+ function drawRectangles3() {
+    pushRectangles3();
+    flyingRectangles3.forEach((elem) => {
+        elem.newPos();
+        elem.update();
+    })
+ }
+
 
 
 var gameCharacter = new Character (75,550,"#0e6bc7",50,50);
@@ -110,6 +137,7 @@ function Character(x , y, color, width, height) {
         (right < rectangleLeft) ||
         (left > rectangleRight)) {
         collided = false;
+        
     }
     return collided;
    }
@@ -130,13 +158,29 @@ function updateCanvas() {
    }
    for (var i =0; i < flyingRectangles.length; i++) {
        if (gameCharacter.collide(flyingRectangles[i])){
-            document.location.reload();
+            // document.location.reload();
+            document.location.href = "index.html";
     //        alert("game over");
        }
    }
+   for (var i =0; i < flyingRectangles2.length; i++) {
+    if (gameCharacter.collide(flyingRectangles2[i])){
+         document.location.reload();
+ //        alert("game over");
+    }
+}
+for (var i =0; i < flyingRectangles3.length; i++) {
+    if (gameCharacter.collide(flyingRectangles3[i])){
+         document.location.reload();
+ //        alert("game over");
+    }
+}
    gameCharacter.update()
    drawRectangles();
+   drawRectangles2();
+   drawRectangles3();
    frameNumber += 20; 
+   drawScore();
 }
 
 window.addEventListener("keydown",function(e){
@@ -144,3 +188,11 @@ window.addEventListener("keydown",function(e){
        gameCharacter.gravitySpeed = -8;
    }
 })
+
+var score = 0;
+function drawScore() {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("Score: " + score, 600, 20);
+}
+

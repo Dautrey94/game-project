@@ -2,3 +2,12 @@ body {
     margin: 0;
     background-image: url("https://wallpaperscraft.com/image/black_background_lines_scratches_69440_1280x720.jpg")
 }
+
+h1, a {
+    /* background-color: black; */
+    color: white;
+}
+
+a {
+    
+}
