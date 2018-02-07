@@ -9,7 +9,7 @@ function start(){
    var intervalId = setInterval(updateCanvas, 20);
 }
 var frameNumber = 0
-
+// checks if set number of frames have passed
 var  everyInterval = ((n) => {
    if ((frameNumber / n) % 1 === 0) {
      return true
@@ -17,9 +17,9 @@ var  everyInterval = ((n) => {
    return false
  });
 
-var flyingSquares = [];
+var flyingCircles = [];
 
-function Square (x,y,color,width,height) {
+function Circle (x,y,color,width,height) {
    this.height = height;
    this.width = width;
    this.x = x;
@@ -30,27 +30,49 @@ function Square (x,y,color,width,height) {
        // ctx.arc(this.x,this.y,this.width,this.height);
        ctx.beginPath();
        ctx.arc(this.x,this.y,50,0,2*Math.PI);
-       ctx.stroke();
+       ctx.fill();
    }
    this.newPos = function() {
-       this.x -= 10;
+       this.x -= 15;
+   }
+   this.collide = function(circle) {
+    // collision detection based on coordinates of plane & targets
+    var left = this.x;
+    var right = this.x + (this.width);
+    var top = this.y;
+    var bottom = this.y + (this.height);
+    var circleLeft = circle.x;
+    var circleRight = circle.x + (this.width);
+    var circleTop =circle.y;
+    var circleBottom = circle.y + (this.height);
+    var collided = true;
+    if ((bottom < circleTop) ||
+        (top > cirlceBottom) ||
+        (right < circleLeft) ||
+        (left > circleRight)) {
+        collided = false;
+    }
+    return collided;
    }
 }
 
-function pushSquare() {
+function pushCircle() {
    if (everyInterval(500)) {
        var random = Math.floor(Math.random() * canvas.height);
-       flyingSquares.push(new Square(canvas.width,random,'red',40,40));
+       flyingCircles.push(new Circle(canvas.width,random,"white",40,40));
    }
 }
 
-function drawSquares() {
-   pushSquare();
-   flyingSquares.forEach((elem) => {
+function drawCircles() {
+   pushCircle();
+   flyingCircles.forEach((elem) => {
        elem.newPos();
        elem.update();
    })
 }
+
+
+var gameCharacter = new Character (75,550,"#0e6bc7",50,50);
 
 function Character(x , y, color, width, height) {
    this.x = x;
@@ -69,10 +91,29 @@ function Character(x , y, color, width, height) {
    this.newPos = function() {
        this.gravitySpeed += this.gravity;
        this.y += this.speedY + this.gravitySpeed;
-   }  
+   }
+   this.collide = function(circle) {
+    // collision detection based on coordinates of plane & targets
+    var left = this.x;
+    var right = this.x + (this.width);
+    var top = this.y;
+    var bottom = this.y + (this.height);
+    var circleLeft = circle.x;
+    var circleRight = circle.x + (this.width);
+    var circleTop =circle.y;
+    var circleBottom = circle.y + (this.height);
+    var collided = true;
+    if ((bottom < circleTop) ||
+        (top > circleBottom) ||
+        (right < circleLeft) ||
+        (left > circleRight)) {
+        collided = false;
+    }
+    return collided;
+   }
+    
 }
 
-var gameCharacter = new Character (75,550,"green",50,50);
 
 
 function updateCanvas() {
@@ -85,8 +126,14 @@ function updateCanvas() {
        gameCharacter.y = 0
        gameCharacter.gravitySpeed = 0
    }
+   for (var i =0; i < flyingCircles.length; i++) {
+       if (gameCharacter.collide(flyingCircles[i])){
+            document.location.reload();
+    //        alert("game over");
+       }
+   }
    gameCharacter.update()
-   drawSquares();
+   drawCircles();
    frameNumber += 20; 
 }
 
