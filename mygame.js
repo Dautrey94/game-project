@@ -1,7 +1,7 @@
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext('2d');
 
-
+var intervalId;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -12,7 +12,7 @@ setTimeout(function(){
 
 function start(){
    // left at 20 for fast refresh
-   var intervalId = setInterval(updateCanvas, 20);
+   intervalId = setInterval(updateCanvas, 20);
 }
 var frameNumber = 0
 // checks if set number of frames have passed
@@ -58,9 +58,10 @@ function pushRectangles() {
    if (everyInterval(600)) {
        var random = Math.floor(Math.random() * canvas.height);
        flyingRectangles.push(new Rectangles(canvas.width,random,"white",60,60));
-       score++;
+       score++
    } 
 }
+
 function pushRectangles2() {
     if (everyInterval(1000)) {
         var random = Math.floor(Math.random() * canvas.height);
@@ -69,7 +70,7 @@ function pushRectangles2() {
     } 
  }
  function pushRectangles3() {
-    if (everyInterval(5000)) {
+    if (everyInterval(2000)) {
         var random = Math.floor(Math.random() * canvas.height);
         flyingRectangles3.push(new Rectangles(canvas.width,random,"green",40,40));
         score++;
@@ -137,6 +138,7 @@ function Character(x , y, color, width, height) {
         (right < rectangleLeft) ||
         (left > rectangleRight)) {
         collided = false;
+
         
     }
     return collided;
@@ -159,19 +161,24 @@ function updateCanvas() {
    for (var i =0; i < flyingRectangles.length; i++) {
        if (gameCharacter.collide(flyingRectangles[i])){
             // document.location.reload();
-            document.location.href = "index.html";
+            gameOverScreen();
+            // document.location.href = "index.html";
     //        alert("game over");
        }
    }
    for (var i =0; i < flyingRectangles2.length; i++) {
     if (gameCharacter.collide(flyingRectangles2[i])){
-         document.location.reload();
+         //document.location.reload();
+          gameOverScreen();
+        //  document.location.href = "index.html";
  //        alert("game over");
     }
 }
 for (var i =0; i < flyingRectangles3.length; i++) {
     if (gameCharacter.collide(flyingRectangles3[i])){
-         document.location.reload();
+         //document.location.reload();
+         gameOverScreen();
+        //  document.location.href = "index.html";
  //        alert("game over");
     }
 }
@@ -194,5 +201,18 @@ function drawScore() {
     ctx.font = "20px Arial";
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + score, 600, 20);
+}
+function startOver (){
+    return document.location.href = "index.html";
+}
+
+function gameOverScreen() {
+    ctx.textBaseLine = "middle";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "rgba(13,6,6,1)";
+    ctx.font = "bold 80px Vector_Battle";
+    ctx.fillText("Your score is " + score, canvas.width/2, canvas.height/2);
+    clearInterval(intervalId)
+    setTimeout(startOver, 3000)
 }
 
