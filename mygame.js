@@ -4,11 +4,12 @@ var ctx = canvas.getContext('2d');
 var intervalId;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
+// var jumpSound = new Audio("sounds/Mariojump.mp3");
+// var crashSound = new Audio("sounds/crash.mp3")
 // starts game after 2 seconds
 setTimeout(function(){ 
     start();
-}, 2000);
+}, 1200);
 
 function start(){
    // left at 20 for fast refresh
@@ -36,6 +37,11 @@ function Rectangles (x,y,color,width,height) {
    this.update = function() {
     ctx.fillStyle=this.color;
     ctx.fillRect (this.x,this.y,this.width,this.height);
+    ctx.shadowColor = 'black';
+    ctx.shadowBlur = 25;
+    ctx.shadowOffsetX = 12;
+    ctx.shadowOffsetY = 12;
+    ctx.fill();
        //ctx.fillStyle = color;
        // ctx.arc(this.x,this.y,this.width,this.height);
        //ctx.beginPath();
@@ -49,7 +55,7 @@ function Rectangles (x,y,color,width,height) {
        } else if( this.color === "green"){
            this.x -=30;
        } else {
-           this.x -=12
+           this.x -=17
        }
    } 
 }
@@ -57,7 +63,7 @@ function Rectangles (x,y,color,width,height) {
 function pushRectangles() {
    if (everyInterval(600)) {
        var random = Math.floor(Math.random() * canvas.height);
-       flyingRectangles.push(new Rectangles(canvas.width,random,"white",60,60));
+       flyingRectangles.push(new Rectangles(canvas.width,random,"yellow",60,60));
        score++
    } 
 }
@@ -70,7 +76,7 @@ function pushRectangles2() {
     } 
  }
  function pushRectangles3() {
-    if (everyInterval(2000)) {
+    if (everyInterval(1200)) {
         var random = Math.floor(Math.random() * canvas.height);
         flyingRectangles3.push(new Rectangles(canvas.width,random,"green",40,40));
         score++;
@@ -150,7 +156,14 @@ function Character(x , y, color, width, height) {
 
 function updateCanvas() {
    ctx.clearRect(0,0, window.innerWidth, window.innerHeight)
-   gameCharacter.newPos()
+   gameCharacter.newPos();
+
+   gameCharacter.update()
+   drawRectangles();
+   drawRectangles2();
+   drawRectangles3();
+   frameNumber += 20; 
+   drawScore();
    if (gameCharacter.y > canvas.height - gameCharacter.height){
        gameCharacter.y = canvas.height - gameCharacter.height
        gameCharacter.gravitySpeed = 0
@@ -161,6 +174,7 @@ function updateCanvas() {
    for (var i =0; i < flyingRectangles.length; i++) {
        if (gameCharacter.collide(flyingRectangles[i])){
             // document.location.reload();
+            //crashSound.play();
             gameOverScreen();
             // document.location.href = "index.html";
     //        alert("game over");
@@ -169,6 +183,7 @@ function updateCanvas() {
    for (var i =0; i < flyingRectangles2.length; i++) {
     if (gameCharacter.collide(flyingRectangles2[i])){
          //document.location.reload();
+         //crashSound.play();
           gameOverScreen();
         //  document.location.href = "index.html";
  //        alert("game over");
@@ -177,31 +192,34 @@ function updateCanvas() {
 for (var i =0; i < flyingRectangles3.length; i++) {
     if (gameCharacter.collide(flyingRectangles3[i])){
          //document.location.reload();
+         //crashSound.play();
          gameOverScreen();
         //  document.location.href = "index.html";
  //        alert("game over");
     }
 }
-   gameCharacter.update()
-   drawRectangles();
-   drawRectangles2();
-   drawRectangles3();
-   frameNumber += 20; 
-   drawScore();
+   
 }
 
 window.addEventListener("keydown",function(e){
    if (e.which === 32){
        gameCharacter.gravitySpeed = -8;
+       jumpSound.play();
    }
 })
+// window.addEventListener("keyup",function(e){
+//     if (e.which === 32){
+//         jumpSound.play();
+//     }
+//  })
 
 var score = 0;
 function drawScore() {
     ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "black";
     ctx.fillText("Score: " + score, 600, 20);
 }
+
 function startOver (){
     return document.location.href = "index.html";
 }
@@ -209,10 +227,12 @@ function startOver (){
 function gameOverScreen() {
     ctx.textBaseLine = "middle";
     ctx.textAlign = "center";
-    ctx.fillStyle = "rgba(13,6,6,1)";
-    ctx.font = "bold 80px Vector_Battle";
+    ctx.fillStyle = "black";
+    ctx.font = "bold 80px Impact";
     ctx.fillText("Your score is " + score, canvas.width/2, canvas.height/2);
     clearInterval(intervalId)
     setTimeout(startOver, 3000)
 }
+
+
 

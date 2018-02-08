@@ -1,6 +1,10 @@
 body {
     margin: 0;
-    background-image: url("https://wallpaperscraft.com/image/black_background_lines_scratches_69440_1280x720.jpg")
+    background-image: url("https://i.ytimg.com/vi/ym-Ppw7tVKc/maxresdefault.jpg")
+}
+
+#index{
+    background-image: url("http://www.desktopas.com/files/2013/06/Blue-Purple-Cubes-Stained-Glass-Geometric-Abstract-Art-1280x720.jpg")
 }
 
 h1, a {
@@ -11,6 +15,14 @@ h1, a {
 .start-page {
     text-align: center;
     margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 450px;
+    height: 225px;
+    box-sizing: border-box;
+    background-color: black;
+    border-radius: 25px;
 }
 
 button {
@@ -18,4 +30,8 @@ button {
 }
 button a:hover {
     text-decoration: none;
+}
+
+.margin{
+    margin-top:30px;
 }
