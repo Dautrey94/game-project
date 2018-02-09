@@ -4,8 +4,9 @@ var ctx = canvas.getContext('2d');
 var intervalId;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-// var jumpSound = new Audio("sounds/Mariojump.mp3");
-// var crashSound = new Audio("sounds/crash.mp3")
+var jumpSound = new Audio("sounds/jump3.mp3");
+var crashSound = new Audio("sounds/crashSound.mp3");
+var backgroundMusic = new Audio ("sounds/bgmusic.mp3");
 // starts game after 2 seconds
 setTimeout(function(){ 
     start();
@@ -14,6 +15,7 @@ setTimeout(function(){
 function start(){
    // left at 20 for fast refresh
    intervalId = setInterval(updateCanvas, 20);
+   backgroundMusic.play();
 }
 var frameNumber = 0
 // checks if set number of frames have passed
@@ -39,8 +41,8 @@ function Rectangles (x,y,color,width,height) {
     ctx.fillRect (this.x,this.y,this.width,this.height);
     ctx.shadowColor = 'black';
     ctx.shadowBlur = 25;
-    ctx.shadowOffsetX = 12;
-    ctx.shadowOffsetY = 12;
+    ctx.shadowOffsetX = 16;
+    ctx.shadowOffsetY = 16;
     ctx.fill();
        //ctx.fillStyle = color;
        // ctx.arc(this.x,this.y,this.width,this.height);
@@ -53,7 +55,7 @@ function Rectangles (x,y,color,width,height) {
        if( this.color === "red"){
            this.x -=5;
        } else if( this.color === "green"){
-           this.x -=30;
+           this.x -=26;
        } else {
            this.x -=17
        }
@@ -64,7 +66,7 @@ function pushRectangles() {
    if (everyInterval(600)) {
        var random = Math.floor(Math.random() * canvas.height);
        flyingRectangles.push(new Rectangles(canvas.width,random,"yellow",60,60));
-       score++
+      // score++
    } 
 }
 
@@ -72,14 +74,14 @@ function pushRectangles2() {
     if (everyInterval(1000)) {
         var random = Math.floor(Math.random() * canvas.height);
         flyingRectangles2.push(new Rectangles(canvas.width,random,"red",60,60));
-        score++;
+       // score++;
     } 
  }
  function pushRectangles3() {
     if (everyInterval(1200)) {
         var random = Math.floor(Math.random() * canvas.height);
         flyingRectangles3.push(new Rectangles(canvas.width,random,"green",40,40));
-        score++;
+        //score++;
     } 
  }
 
@@ -175,6 +177,7 @@ function updateCanvas() {
        if (gameCharacter.collide(flyingRectangles[i])){
             // document.location.reload();
             //crashSound.play();
+            crashSound.play();
             gameOverScreen();
             // document.location.href = "index.html";
     //        alert("game over");
@@ -184,6 +187,7 @@ function updateCanvas() {
     if (gameCharacter.collide(flyingRectangles2[i])){
          //document.location.reload();
          //crashSound.play();
+         crashSound.play();
           gameOverScreen();
         //  document.location.href = "index.html";
  //        alert("game over");
@@ -193,12 +197,13 @@ for (var i =0; i < flyingRectangles3.length; i++) {
     if (gameCharacter.collide(flyingRectangles3[i])){
          //document.location.reload();
          //crashSound.play();
+         crashSound.play();
          gameOverScreen();
         //  document.location.href = "index.html";
  //        alert("game over");
     }
 }
-   
+    score++ 
 }
 
 window.addEventListener("keydown",function(e){
@@ -207,11 +212,6 @@ window.addEventListener("keydown",function(e){
        jumpSound.play();
    }
 })
-// window.addEventListener("keyup",function(e){
-//     if (e.which === 32){
-//         jumpSound.play();
-//     }
-//  })
 
 var score = 0;
 function drawScore() {

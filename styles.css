@@ -1,10 +1,14 @@
 body {
     margin: 0;
-    background-image: url("https://i.ytimg.com/vi/ym-Ppw7tVKc/maxresdefault.jpg")
+    background-image: url("https://i.ytimg.com/vi/ym-Ppw7tVKc/maxresdefault.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #index{
-    background-image: url("http://www.desktopas.com/files/2013/06/Blue-Purple-Cubes-Stained-Glass-Geometric-Abstract-Art-1280x720.jpg")
+    background-image: url("http://www.desktopas.com/files/2013/06/Blue-Purple-Cubes-Stained-Glass-Geometric-Abstract-Art-1280x720.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 h1, a {
