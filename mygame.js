@@ -53,7 +53,7 @@ function Rectangles (x,y,color,width,height) {
    this.newPos = function() {
        //this.x -= 15;
        if( this.color === "red"){
-           this.x -=5;
+           this.x -=7;
        } else if( this.color === "green"){
            this.x -=26;
        } else {
