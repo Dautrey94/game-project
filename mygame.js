@@ -40,7 +40,7 @@ function Rectangles (x,y,color,width,height) {
     ctx.fillStyle=this.color;
     ctx.fillRect (this.x,this.y,this.width,this.height);
     ctx.shadowColor = 'black';
-    ctx.shadowBlur = 25;
+    ctx.shadowBlur = 30;
     ctx.shadowOffsetX = 16;
     ctx.shadowOffsetY = 16;
     ctx.fill();
@@ -53,9 +53,9 @@ function Rectangles (x,y,color,width,height) {
    this.newPos = function() {
        //this.x -= 15;
        if( this.color === "red"){
-           this.x -=7;
+           this.x -=8;
        } else if( this.color === "green"){
-           this.x -=26;
+           this.x -=27;
        } else {
            this.x -=17
        }
